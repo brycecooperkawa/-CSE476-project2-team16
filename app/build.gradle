@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'edu.msu.CSE476_team16.proj1'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "edu.msu.CSE476_team16.proj1"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
