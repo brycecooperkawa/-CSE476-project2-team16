@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class GameBoard {
+
     private final static String GREEN_NAME = "MainActivity.nameOfGreen";
     private final static String WHITE_NAME = "MainActivity.nameOfWhite";
 
@@ -80,8 +81,15 @@ public class GameBoard {
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         fillPaint.setColor(0xffcccccc);
 
-
-
+        for (int i = 0; i < 7; i++) {
+            // Load the game pieces
+            columns.add(new GameColumn(context,
+                    R.drawable.empty_space,
+                    R.drawable.spartan_green,
+                    R.drawable.spartan_white,
+                    i
+            ));
+        }
 
 
         restart();
@@ -109,6 +117,9 @@ public class GameBoard {
         canvas.drawRect(marginX, marginY,
                 marginX + gameWidth, marginY + gameHeight, fillPaint);
 
+        for(GameColumn piece : columns) {
+            piece.draw(canvas, marginX, marginY, gameWidth);
+        }
     }
 
     /**
@@ -147,6 +158,25 @@ public class GameBoard {
      * @return true if the touch is handled
      */
     private boolean onTouched(View view, float x, float y) {
+
+        if (justPlaced == null) {
+            if (touching != null) {
+                touching.removeFloatingTile();
+                touching = null;
+            }
+            // Check each piece to see if it has been hit
+            // We do this in reverse order so we find the pieces in front
+            for (int p = columns.size() - 1; p >= 0; p--) {
+                if (columns.get(p).hit(x, y)) {
+                    // We hit a piece!
+                    touching = columns.get(p);
+                    touching.displayFloatingTile(isGreensTurn);
+                    view.invalidate();
+                    return true;
+                }
+            }
+            view.invalidate();
+        }
         return false;
     }
 
@@ -156,6 +186,19 @@ public class GameBoard {
      */
     private boolean onReleased(View view) {
 
+        if(touching != null) {
+
+            if (touching.addTile(isGreensTurn)) {
+                justPlaced = touching;
+            } else {
+                Toast.makeText(view.getContext(), R.string.invalid_move,
+                        Toast.LENGTH_SHORT).show();
+            }
+            view.invalidate();
+            touching.removeFloatingTile();
+            touching = null;
+            return true;
+        }
 
         return false;
     }
@@ -169,12 +212,29 @@ public class GameBoard {
     }
 
     public void undoMove(View view) {
-
+        if (justPlaced != null) {
+            justPlaced.removeTopTile();
+            justPlaced = null;
+            view.invalidate();
+        } else {
+            Toast.makeText(view.getContext(), R.string.tile_error,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public boolean finishMove(View view, String greenName, String whiteName) {
+        if (justPlaced != null) {
+            isGreensTurn = !isGreensTurn;
 
-        return true;
+            if (isDone(justPlaced)) {
+                finishGame(view, greenName, whiteName);
+            }
+            justPlaced = null;
+        } else {
+            Toast.makeText(view.getContext(), R.string.tile_error,
+                    Toast.LENGTH_SHORT).show();
+        }
+        return isGreensTurn;
     }
 
     /**
@@ -182,18 +242,118 @@ public class GameBoard {
      * @return true if connect 4 is done
      */
     public boolean isDone(GameColumn justAdded) {
+        int rowAdded = justAdded.getSpotsFilled()-1;
+        int columnAdded = justAdded.getColumnId();
+
+        boolean greenAdded = !isGreensTurn;
+
+        int l = 0;
+        int r = 0;
+
+        int d = 0;
+
+        int ul = 0;
+        int dr = 0;
+
+        int ur = 0;
+        int dl = 0;
+
+        for(int i=1; i<4; i++){
+            if (rowAdded-i >= 0 && isColor(columnAdded, rowAdded-i, greenAdded)) {
+                d += 1;
+            } else {
+                break;
+            }
+        }
+
+        for(int i=1; i<4; i++){
+            if (columnAdded-i >= 0 && isColor(columnAdded-i, rowAdded, greenAdded)) {
+                l += 1;
+            } else {
+                break;
+            }
+        }
+        for(int i=1; i<4; i++){
+            if (columnAdded+i < 7 && isColor(columnAdded+i, rowAdded, greenAdded)) {
+                r += 1;
+            } else {
+                break;
+            }
+        }
+
+        for(int i=1; i<4; i++){
+            if (columnAdded+i < 7 && rowAdded-i >= 0 && isColor(columnAdded+i, rowAdded-i, greenAdded)) {
+                dr += 1;
+            } else {
+                break;
+            }
+        }
+        for(int i=1; i<4; i++){
+            if (rowAdded+i < 6 && columnAdded-i >= 0 && isColor(columnAdded-i, rowAdded+i, greenAdded)) {
+                ul += 1;
+            } else {
+                break;
+            }
+        }
+
+        for(int i=1; i<4; i++){
+            if (columnAdded+i < 7 && rowAdded+i < 6 && isColor(columnAdded+i, rowAdded+i, greenAdded)) {
+                ur += 1;
+            } else {
+                break;
+            }
+        }
+        for(int i=1; i<4; i++){
+            if (rowAdded-i >= 0 && columnAdded-i >= 0 && isColor(columnAdded-i, rowAdded-i, greenAdded)) {
+                dl += 1;
+            } else {
+                break;
+            }
+        }
+
+
+
+        if (d == 3) {
+            return true;
+        }
+        if (l+r >= 3) {
+            return true;
+        }
+        if (ul+dr == 3) {
+            return true;
+        }
+        if (ur+dl >= 3) {
+            return true;
+        }
+
         return false;
     }
 
     private boolean isColor(int column, int row, boolean isGreen) {
-        return false;
+        GameColumn gameColumn = columns.get(0);
+
+        for(int q=0; q<7; q++) {
+            if (columns.get(q).getColumnId()==column) {
+                gameColumn = columns.get(q);
+            }
+        }
+
+        if (gameColumn.getSpotsFilled() < row+1) {
+            return false;
+        }
+
+        return gameColumn.getTileArray().get(row) == isGreen;
     }
 
     /**
      * Reset the board game
      */
     public void restart() {
-
+        for(int q=0; q<7; q++) {
+            columns.get(q).setTileArray(new ArrayList<>());
+            columns.get(q).setSpotsFilled(0);
+        }
+        isGreensTurn = true;
     }
 
     /**
@@ -201,7 +361,38 @@ public class GameBoard {
      * @param bundle The bundle we save to
      */
     public void saveInstanceState(Bundle bundle) {
+        boolean [] tileArrays = new boolean[columns.size() * 6];
+        int [] spotsFilled = new int[columns.size()];
+        int [] columnIds = new int[columns.size()];
 
+        for(int i = 0; i< columns.size(); i++) {
+            GameColumn piece = columns.get(i);
+            int j = 0;
+            ArrayList<Boolean> tileArray = piece.getTileArray();
+            int spotsFilledInColn = piece.getSpotsFilled();
+
+            for (int k = 0; k < spotsFilledInColn; k++) {
+                tileArrays[i*6+j] = tileArray.get(k);
+                j += 1;
+            }
+
+            while (j < 6) {
+                tileArrays[i*6+j] = false;
+                j += 1;
+            }
+            spotsFilled[i] = piece.getSpotsFilled();
+            columnIds[i] = piece.getColumnId();
+        }
+
+        bundle.putBoolean(TURN, isGreensTurn);
+        if (justPlaced != null) {
+            bundle.putInt(JUST_PLACED, justPlaced.getColumnId());
+        } else {
+            bundle.putInt(JUST_PLACED, -1);
+        }
+        bundle.putBooleanArray(TILES, tileArrays);
+        bundle.putIntArray(SPOTS_FILLED,  spotsFilled);
+        bundle.putIntArray(COLUMN_IDS,  columnIds);
     }
 
     /**
@@ -209,6 +400,35 @@ public class GameBoard {
      * @param bundle The bundle we save to
      */
     public void loadInstanceState(Bundle bundle) {
+        boolean [] tileArrays = bundle.getBooleanArray(TILES);
+        int [] spotsFilled = bundle.getIntArray(SPOTS_FILLED);
+        int [] columnIds = bundle.getIntArray(COLUMN_IDS);
+        int justPlacedId = bundle.getInt(JUST_PLACED);
+        isGreensTurn = bundle.getBoolean(TURN);
 
+        for(int i=0; i<7; i++) {
+            if (columns.get(i).getColumnId() == justPlacedId) {
+                justPlaced = columns.get(i);
+            }
+        }
+
+        for(int i=0; i<7; i++) {
+            ArrayList<Boolean> tileArrayForColn = new ArrayList<>();
+            int spotsFilledForColn = spotsFilled[i];
+
+            for (int k = 0; k < spotsFilledForColn; k++) {
+                tileArrayForColn.add(tileArrays[6*i+k]);
+            }
+
+            GameColumn workingColn = columns.get(0);
+            for(int q=0; q<7; q++) {
+                if (columns.get(q).getColumnId()==columnIds[i]) {
+                    workingColn = columns.get(q);
+                }
+            }
+            workingColn.setSpotsFilled(spotsFilledForColn);
+            workingColn.setTileArray(tileArrayForColn);
+        }
     }
+
 }
