@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GameBoardActivity">
+
+    <TextView
+        android:id="@+id/playerIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autofillHints=""
+        android:gravity="center"
+        android:hint="@string/welcome"
+        android:inputType=""
+        android:text="" />
+
+    <view
+        android:id="@+id/gameView"
+        class="edu.msu.CSE476_team16.proj1.GameBoardView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/doneButtonFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+
+            <Button
+                android:id="@+id/doneButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:onClick="finishMove"
+                android:text="@string/done" />
+
+        </FrameLayout>
+
+        <Space
+            android:id="@+id/leftSpace"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/undoButtonFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|top">
+
+            <Button
+                android:id="@+id/undoButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="undoMove"
+                android:text="@string/undo" />
+
+        </FrameLayout>
+
+        <Space
+            android:id="@+id/rightSpace"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:id="@+id/surrendButtonFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top">
+
+            <Button
+                android:id="@+id/surrenderButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:onClick="finishGame"
+                android:text="@string/surrender" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>
