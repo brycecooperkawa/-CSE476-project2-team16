@@ -20,7 +20,7 @@ public class EndGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_end_game);
+        setContentView(R.layout.activity_end_game);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -28,12 +28,12 @@ public class EndGameActivity extends AppCompatActivity {
             greenPlayerName = extras.getString(GREEN_NAME);
             whitePlayerName = extras.getString(WHITE_NAME);
 
-//            TextView playerText = (TextView)this.findViewById(R.id.winnerIndicator);
-//            if (isGreen) {
-//                playerText.setText(greenPlayerName + getString(R.string.winner) + whitePlayerName + getString(R.string.loser));
-//            } else {
-//                playerText.setText(whitePlayerName + getString(R.string.winner) + greenPlayerName + getString(R.string.loser));
-//            }
+            TextView playerText = (TextView)this.findViewById(R.id.winnerIndicator);
+            if (isGreen) {
+                playerText.setText(greenPlayerName + getString(R.string.winner) + whitePlayerName + getString(R.string.loser));
+            } else {
+                playerText.setText(whitePlayerName + getString(R.string.winner) + greenPlayerName + getString(R.string.loser));
+            }
         }
 
     }
