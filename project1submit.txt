@@ -1,4 +1,3 @@
-
 Project 1 Submission
 
 Group Name:   Team-16
@@ -8,7 +7,7 @@ When you have completed the project, complete the following form and include it 
 
 Member 1: Ryan Dukovich
 
-Responsiblity: GameboardActivity, GameColumn
+Responsiblity: GameboardActivity
 
 
 
@@ -30,6 +29,6 @@ Responsiblity: GameboardView
 
 Member 5 (if applicable): Bryce Cooperkawa
 
-Responsiblity: xml values, some layouts
+Responsiblity: GameColumn
 
 
