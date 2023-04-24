@@ -16,5 +16,9 @@
     <string name="turn_indicator">\'s Turn</string>
     <string name="default_green">Green</string>
     <string name="default_white">White</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="login">Login</string>
+    <string name="create_account">Create Account</string>
 
 </resources>

@@ -42,7 +42,7 @@
                 android:text="@string/player_one" />
 
             <EditText
-                android:id="@+id/playerOneEditor"
+                android:id="@+id/usernameEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -63,7 +63,7 @@
                 android:text="@string/player_two" />
 
             <EditText
-                android:id="@+id/playerTwoEditor"
+                android:id="@+id/passwordEditor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

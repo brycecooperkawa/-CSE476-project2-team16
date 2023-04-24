@@ -2,32 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createaccount"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textWelcome"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:gravity="center"
-        android:text="@string/welcome" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         app:srcCompat="@drawable/empty_board" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center|start"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView"
@@ -39,16 +32,9 @@
             android:id="@+id/usernameEditor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
-            android:inputType="textPersonName"
-            android:autofillHints="" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+            android:inputType="textPersonName" />
 
         <TextView
             android:id="@+id/textView2"
@@ -60,31 +46,30 @@
             android:id="@+id/passwordEditor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
-            android:inputType="textPassword"
-            android:autofillHints="" />
-    </LinearLayout>
+            android:inputType="textPassword" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/button7"
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:onClick="onStartGame"
-            android:text="@string/login" />
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/passwordEditor2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:ems="10"
+            android:inputType="textPassword" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:text="@string/create_account" />
     </LinearLayout>
+
 
 </LinearLayout>

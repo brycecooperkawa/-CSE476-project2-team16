@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView playerOneText = (TextView)this.findViewById(R.id.playerOneEditor);
-        TextView playerTwoText = (TextView)this.findViewById(R.id.playerTwoEditor);
+        TextView playerOneText = (TextView)this.findViewById(R.id.usernameEditor);
+        TextView playerTwoText = (TextView)this.findViewById(R.id.passwordEditor);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -35,13 +35,23 @@ public class MainActivity extends AppCompatActivity {
      * @param view the view
      */
     public void onStartGame(View view) {
-        TextView playerOneText = (TextView)this.findViewById(R.id.playerOneEditor);
-        TextView playerTwoText = (TextView)this.findViewById(R.id.playerTwoEditor);
+        TextView playerOneText = (TextView)this.findViewById(R.id.usernameEditor);
+        //TextView playerTwoText = (TextView)this.findViewById(R.id.passwordEditor);
+
 
         //starts the GameBoardActivity
         Intent intent = new Intent(this, GameBoardActivity.class);
         intent.putExtra(GREEN_NAME, playerOneText.getText().toString());
-        intent.putExtra(WHITE_NAME, playerTwoText.getText().toString());
+        //intent.putExtra(WHITE_NAME, playerTwoText.getText().toString());
+        intent.putExtra(WHITE_NAME, "Jamie");
         startActivity(intent);
+    }
+
+    /**
+     * Handles the create account option
+     * @param view the view
+     */
+    public void onCreateAccount(View view){
+
     }
 }
