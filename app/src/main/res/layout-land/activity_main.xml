@@ -39,7 +39,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/player_one" />
+                android:text="@string/username" />
 
             <EditText
                 android:id="@+id/usernameEditor"
@@ -60,7 +60,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/player_two" />
+                android:text="@string/password" />
 
             <EditText
                 android:id="@+id/passwordEditor"
@@ -72,18 +72,35 @@
                 android:autofillHints="" />
         </LinearLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:text="@string/start_puzzle"
-                android:onClick="onStartGame"/>
-        </FrameLayout>
+                android:layout_margin="5dp"
+                android:onClick="onLogin"
+                android:text="@string/login" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:onClick="onCreateAccount"
+                android:text="@string/create_account" />
+
+            <CheckBox
+                android:id="@+id/rememberCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/remember" />
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>
