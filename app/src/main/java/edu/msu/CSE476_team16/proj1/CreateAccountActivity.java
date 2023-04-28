@@ -30,10 +30,24 @@ public class CreateAccountActivity extends AppCompatActivity {
         String x=pass1.getText().toString();
         String y=pass2.getText().toString();
 
+        //make sure inputs are valid
+        if(u.length()==0){
+            Toast.makeText(this,"Please enter a username",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(x.length()==0){
+            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(y.length()==0){
+            Toast.makeText(this,"Please enter a password",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //check password match
         if(x.equals(y)){
             //php stuff
-            createUser(u,x);
+            createUser(u,x,view);
 
             //go back to main screen
             Intent intent = new Intent(this, MainActivity.class);
@@ -60,7 +74,27 @@ public class CreateAccountActivity extends AppCompatActivity {
      * @param username the username
      * @param password the password
      */
-    public void createUser(final String username, final String password){
+    public void createUser(final String username, final String password, View view){
+        final View finalView = view;
+        // add user in new thread
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
+                Cloud cloud = new Cloud();
+                final boolean ok = cloud.createAccount(username, password);
+
+                finalView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!ok){
+                            Toast.makeText(view.getContext(),"Error",Toast.LENGTH_SHORT).show();
+                        } else {
+                            return;
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 }
